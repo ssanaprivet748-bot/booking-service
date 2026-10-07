@@ -34,7 +34,7 @@
 ## Быстрый старт
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/ssanaprivet748-bot/booking-service.git
 cd booking-service
 npm install
 cp .env.example .env.local   # заполнить значения
