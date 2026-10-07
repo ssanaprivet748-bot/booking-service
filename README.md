@@ -47,7 +47,7 @@
 
 ## Стек (не менять без согласования)
 
-- **Next.js 14** (App Router) — фронт и API routes
+- **Next.js 15** (App Router) — фронт и API routes
 - **TypeScript** — везде
 - **Tailwind CSS** — стили
 - **Supabase** — база данных + авторизация
