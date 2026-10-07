@@ -92,7 +92,6 @@ types/index.ts
 tests/                     Vitest-спеки
 supabase/migrations/       SQL-миграция
 middleware.ts              защита /admin/*
-scripts/screenshots.cjs    генерация скриншотов
 screens/                   скриншоты для README
 ```
 
