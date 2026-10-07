@@ -5,6 +5,14 @@
 
 🔗 **Демо:** https://booking-service-lemon.vercel.app
 
+## Доступ к демо-админке
+
+```
+URL:      https://booking-service-lemon.vercel.app/admin/login
+Email:    kuizoki4@gmail.com
+Пароль:   hello123
+```
+
 ## Скриншоты
 
 | Главная | Форма записи | Админка |
