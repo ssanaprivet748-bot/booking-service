@@ -140,7 +140,11 @@ npm run lint     — линтер
 
 | Главная | Форма записи | Админка |
 |---------|--------------|---------|
-| ![Лендинг](docs/screenshots/landing.png) | ![Форма](docs/screenshots/book.png) | ![Админка](docs/screenshots/admin.png) |
+| ![Лендинг](screens/landing.png) | ![Форма](screens/book.png) | ![Админка](screens/admin.png) |
+
+| Форма заполнена | Лендинг на мобильном |
+|-----------------|----------------------|
+| ![Заполненная форма](screens/book-filled.png) | ![Мобильный лендинг](screens/landing-mobile.png) |
 
 ## Что использовал
 
