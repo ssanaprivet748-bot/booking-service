@@ -1,140 +1,9 @@
-# Booking Service — онлайн-запись для малого бизнеса
+# Booking Service
 
-## Что это
+Мини-SaaS для онлайн-записи малого бизнеса (барбершопы, салоны, стоматологии, автосервисы).
+Клиент записывается с телефона за 30 секунд, владелец видит заявки в админке и получает уведомления в Telegram.
 
-Мини-сервис для барбершопов, салонов, стоматологий и автосервисов.
-Позволяет клиентам записываться онлайн, а владельцу — видеть заявки
-в админке и получать уведомления в Telegram.
-
-## Цель проекта
-
-Демонстрационный проект для портфолио на GitHub.
-Показывает полный стек: фронт, бэк, БД, авторизация, интеграции, деплой.
-В будущем — шаблон, который можно продавать как услугу.
-
-## Целевой пользователь
-
-- **Клиент**: хочет записаться за 30 секунд с телефона.
-- **Владелец**: хочет видеть заявки и не терять их в директе.
-
-## Функциональность
-
-### 1. Публичный лендинг (/)
-- Hero-секция: название, слоган, кнопка "Записаться"
-- Секция услуг: карточки с названием, ценой, длительностью
-- Секция отзывов (статические данные)
-- Секция контактов: адрес, телефон, карта (заглушка)
-- Футер с соцсетями
-- Кнопка "Записаться" → модалка или страница /book
-
-### 2. Форма записи (/book)
-- Поля: имя, телефон, услуга (select), дата, время
-- Валидация: имя >= 2 символов, телефон в формате +7..., дата не в прошлом
-- После отправки: запись в Supabase + уведомление в Telegram + сообщение "Мы вам перезвоним"
-- Защита от спама: простая rate limit (не более 3 заявок с одного IP в час)
-
-### 3. Админка (/admin)
-- Логин через Supabase Auth (email + пароль)
-- Список заявок: имя, телефон, услуга, дата, время, статус
-- Статусы: new / confirmed / done / cancelled
-- Действия: подтвердить, отменить, удалить
-- Фильтр по дате и статусу
-- Только авторизованные пользователи
-
-### 4. Telegram-уведомления
-- Новая заявка → сообщение в Telegram-бот владельцу
-- Формат: "Новая заявка: Иван, +79991234567, Стрижка, 15.05 14:00"
-
-## Стек (не менять без согласования)
-
-- **Next.js 15** (App Router) — фронт и API routes
-- **TypeScript** — везде
-- **Tailwind CSS** — стили
-- **Supabase** — база данных + авторизация
-- **Telegram Bot API** — уведомления
-- **Vercel** — деплой
-- **Playwright** — проверка формы агентом (через MCP)
-
-## Структура проекта
-
-/app
-  /(public)/page.tsx        — лендинг
-  /book/page.tsx            — форма записи
-  /admin/page.tsx           — список заявок
-  /admin/login/page.tsx     — логин
-  /api/bookings/route.ts    — POST создание заявки
-  /api/telegram/route.ts    — отправка в Telegram
-/components
-  /ui/                      — кнопки, инпуты, карточки
-  /sections/                — секции лендинга
-  /admin/                   — компоненты админки
-/lib
-  supabase.ts               — клиент Supabase
-  telegram.ts               — хелпер для Telegram
-  validators.ts             — валидация форм
-/types
-  index.ts                  — общие типы
-/tests
-  booking.spec.ts           — тесты формы
-.env.local                  — переменные окружения (не в git!)
-
-## Переменные окружения (.env.local)
-
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_ROLE_KEY=
-TELEGRAM_BOT_TOKEN=
-TELEGRAM_CHAT_ID=
-
-## Схема базы данных (Supabase)
-
-Таблица `bookings`:
-- id: uuid, primary key
-- name: text, not null
-- phone: text, not null
-- service: text, not null
-- date: date, not null
-- time: time, not null
-- status: text, default 'new'
-- created_at: timestamp, default now()
-
-## Definition of Done (проект считается готовым, когда)
-
-1. Лендинг открывается на телефоне и десктопе без косяков
-2. Форма записи работает: данные падают в Supabase
-3. Владелец получает уведомление в Telegram
-4. Админка открывается после логина, заявки видны
-5. Статусы заявок меняются
-6. Нет ключей в коде — всё в .env.local
-7. Задеплоено на Vercel, есть живая ссылка
-8. README обновлён: скриншоты, демо-ссылка, инструкция запуска
-9. Тесты на форму проходят (npm run test)
-
-## Правила для агента
-
-1. **Не менять стек** без явного разрешения.
-2. **Не добавлять зависимости** без объяснения зачем.
-3. **Не коммитить .env.local** — только .env.example с пустыми значениями.
-4. **После каждого шага** — git commit с понятным сообщением.
-5. **Сначала тесты, потом код** для критичной логики (форма, API).
-6. **Не удалять файлы** без подтверждения.
-7. **Если что-то неясно** — спросить, а не додумывать.
-8. **Проверять результат** через Playwright: открыть, потыкать, увидеть.
-
-## Команды
-
-npm run dev      — локальный запуск
-npm run build    — сборка
-npm run test     — тесты
-npm run lint     — линтер
-
-## Локальный запуск
-
-1. `git clone <ссылка на репо> && cd booking-service`
-2. `npm install`
-3. Создай `.env.local` по образцу `.env.example` и заполни значения из Supabase Dashboard → Settings → API и BotFather.
-4. Примени миграцию: в Supabase SQL Editor выполни `supabase/migrations/001_bookings.sql`.
-5. `npm run dev` → http://localhost:3000
+🔗 **Демо:** https://booking-service-lemon.vercel.app
 
 ## Скриншоты
 
@@ -142,17 +11,104 @@ npm run lint     — линтер
 |---------|--------------|---------|
 | ![Лендинг](screens/landing.png) | ![Форма](screens/book.png) | ![Админка](screens/admin.png) |
 
-| Форма заполнена | Лендинг на мобильном |
-|-----------------|----------------------|
-| ![Заполненная форма](screens/book-filled.png) | ![Мобильный лендинг](screens/landing-mobile.png) |
+## Возможности
 
-## Что использовал
+- 📱 Адаптивный лендинг: Hero, услуги, отзывы, контакты, футер.
+- 📝 Форма записи с валидацией (имя, телефон `+7…`, дата не в прошлом, время 09:00–21:00).
+- 🛡 Rate limit: не более 3 заявок с одного IP в час (429).
+- 💾 Запись в Supabase, RLS: аноним — только INSERT, авторизованный владелец — полный доступ.
+- 🔔 Telegram-уведомления владельцу о новых заявках.
+- 🔐 Админка `/admin` с Supabase Auth, статусами `new/confirmed/done/cancelled`, фильтрами по дате и статусу.
+- ✅ Юнит-тесты валидаторов, API и Telegram-хелпера (Vitest).
 
-- **Стек**: Next.js 15 (App Router), TypeScript, Tailwind CSS, Supabase (БД + Auth), Telegram Bot API, Vercel, Vitest, ESLint + Prettier.
-- **AI-агент**: OpenCode (агентная разработка: инициализация, UI, Supabase, API, Telegram, админка, тестирование flow через Playwright, деплой).
+## Стек
 
-## Контакты
+- [Next.js 15](https://nextjs.org/) (App Router) + React 19
+- TypeScript
+- Tailwind CSS
+- Supabase (Postgres + Auth + RLS)
+- Telegram Bot API
+- Vitest, ESLint, Prettier
+- Деплой: Vercel
 
-Автор: [твоё имя]
-Демо: https://booking-service-lemon.vercel.app
-GitHub: [ссылка на репо]
+## Быстрый старт
+
+```bash
+git clone <repo-url>
+cd booking-service
+npm install
+cp .env.example .env.local   # заполнить значения
+npm run dev                  # http://localhost:3000
+```
+
+Схему БД применить в Supabase SQL Editor: `supabase/migrations/001_bookings.sql`.
+
+## Переменные окружения
+
+| Переменная | Назначение |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | URL проекта Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Публичный anon-ключ |
+| `SUPABASE_SERVICE_ROLE_KEY` | Service role (только сервер!) |
+| `TELEGRAM_BOT_TOKEN` | Токен бота от @BotFather |
+| `TELEGRAM_CHAT_ID` | Chat ID владельца |
+
+`.env.local` добавлен в `.gitignore` — ключи не попадут в репо.
+
+## Скрипты
+
+```bash
+npm run dev    # dev-сервер
+npm run build  # production build
+npm run start  # запуск production build
+npm run lint   # ESLint
+npm run format # Prettier
+npm run test   # Vitest
+```
+
+## Структура
+
+```
+app/
+  (public)/page.tsx        лендинг
+  book/page.tsx            форма записи
+  admin/page.tsx           список заявок
+  admin/login/page.tsx     логин
+  api/bookings/route.ts    POST заявки
+components/
+  sections/                секции лендинга
+  admin/                   таблица заявок
+lib/
+  supabase.ts  telegram.ts  validators.ts  rateLimit.ts
+types/index.ts
+tests/                     Vitest-спеки
+supabase/migrations/       SQL-миграция
+middleware.ts              защита /admin/*
+scripts/screenshots.cjs    генерация скриншотов
+screens/                   скриншоты для README
+```
+
+## Тесты
+
+```bash
+npm run test
+```
+
+Покрыто: валидация формы, rate limit (429), API-контракт (400/201/429), Telegram-хелпер с моком fetch.
+
+## Деплой
+
+Проект задеплоен на Vercel. Для своей копии:
+
+```bash
+npm i -g vercel
+vercel login
+vercel          # preview
+vercel --prod   # production
+```
+
+Переменные окружения добавить в Vercel Dashboard → Settings → Environment Variables.
+
+## Лицензия
+
+MIT
