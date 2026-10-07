@@ -1,9 +1,18 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-stone-800 px-4 py-20 sm:py-32">
+      <Image
+        src="/images/hero.jpg"
+        alt="Барбершоп"
+        fill
+        priority
+        className="object-cover opacity-30"
+      />
       <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-amber-400/10 blur-3xl" />
+      <div className="relative">
       <p className="text-xs font-semibold uppercase tracking-[0.3em] text-amber-400">
         Барбершоп • Москва
       </p>
@@ -21,6 +30,7 @@ export default function Hero() {
       >
         Записаться
       </Link>
+      </div>
     </section>
   );
 }
