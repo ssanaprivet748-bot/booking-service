@@ -13,7 +13,7 @@ export async function sendBookingNotification(booking: Booking): Promise<void> {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ chat_id: chatId, text }),
     });
-  } catch (e) {
+  } catch {
     console.error('Telegram notification failed');
   }
 }

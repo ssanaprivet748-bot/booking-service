@@ -6,7 +6,7 @@ import BookingsTable from '@/components/admin/BookingsTable';
 export const dynamic = 'force-dynamic';
 
 export default async function AdminPage() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
