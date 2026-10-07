@@ -128,8 +128,27 @@ npm run build    — сборка
 npm run test     — тесты
 npm run lint     — линтер
 
+## Локальный запуск
+
+1. `git clone <ссылка на репо> && cd booking-service`
+2. `npm install`
+3. Создай `.env.local` по образцу `.env.example` и заполни значения из Supabase Dashboard → Settings → API и BotFather.
+4. Примени миграцию: в Supabase SQL Editor выполни `supabase/migrations/001_bookings.sql`.
+5. `npm run dev` → http://localhost:3000
+
+## Скриншоты
+
+| Главная | Форма записи | Админка |
+|---------|--------------|---------|
+| ![Лендинг](docs/screenshots/landing.png) | ![Форма](docs/screenshots/book.png) | ![Админка](docs/screenshots/admin.png) |
+
+## Что использовал
+
+- **Стек**: Next.js 15 (App Router), TypeScript, Tailwind CSS, Supabase (БД + Auth), Telegram Bot API, Vercel, Vitest, ESLint + Prettier.
+- **AI-агент**: OpenCode (агентная разработка: инициализация, UI, Supabase, API, Telegram, админка, тестирование flow через Playwright, деплой).
+
 ## Контакты
 
 Автор: [твоё имя]
-Демо: [ссылка на Vercel]
+Демо: https://booking-service-lemon.vercel.app
 GitHub: [ссылка на репо]
